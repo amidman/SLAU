@@ -1,40 +1,39 @@
 #include<iostream>
 #include"../src/progonka.cpp"
+#include<gtest/gtest.h>
 
-
-int main(){
+TEST(progonka, test1){
     int n = 3;
     matrix* M = new matrix(n);
 
-    double* d = new double[n];
-    double* x = new double[n];
+    double a[2] = {1,2};
+    double b[3] = {10,11,12};
+    double c[2] = {1,2};
 
-    for(int i=0;i<n-1;i++){
-        M->a[i] = i+1;
-        M->b[i] = i+10;
-        M->c[i] = i+1;
-        d[i] = i+1;
+    M->a = a;
+    M->b = b;
+    M->c = c;
+
+    double d[3] = {1,2,3};
+    double x[3] = {1,2,3};
+
+    double* res = new double[n];
+
+    d[0] = b[0]*x[0] + c[0]*x[1];
+    for(int i=1;i<n-1;i++){
+        d[i] = a[i-1]*x[i-1] + b[i]*x[i] + c[i]*x[i+1];
     }
-    M->b[n-1] = n+10;
-    d[n-1] = n;
-    
-    
-    //a[0]=5;
-    //a[1]=1;
-    //b[0]=2;
-    //b[1]=4;
-    //b[2]=-3;
-    //c[0]=-1;
-    //c[1]=2;
-    //d[0]=3;
-    //d[1]=6;
-    //d[2]=2;
-    progonka(M, d, x);
+    d[n-1] = a[n-2]*x[n-2]+b[n-1]*x[n-1];
 
-    std::cout<<"a b c d x"<<std::endl;
+    progonka(M, d, res);
+
     for(int i=0;i<n;i++){
-        std::cout<<M->a[i]<<" "<<M->b[i]<<" "<<M->c[i]<<" "<<d[i]<<" "<<x[i]<<std::endl;
+        EXPECT_FLOAT_EQ(res[i],x[i]);
     }
+}
 
-    return 0;
+int main(int argc, char *argv[]){
+    ::testing::InitGoogleTest(&argc, argv);
+
+    return RUN_ALL_TESTS();
 }
