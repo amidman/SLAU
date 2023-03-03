@@ -1,46 +1,32 @@
-struct matrix{
-    int n;
-    double* a;
-    double* b;
-    double* c;
+#include<vector>
+#include"progonka.h"
+#include"tri_diag_matrix.h"
 
-    matrix(int m){
-        a = new double[m-1];
-        b = new double[m];
-        c = new double[m-1];
-        n = m;
-    };
+std::vector<double> progonka(matrix* M, std::vector<double> d){
+    std::vector<double> x;
 
-    matrix(int m,double* a,double* b,double* c){
-        this->a = a;
-        this->b = b;
-        this->c = c;
-        n = m;
-    };
-};
+    int n = M->get_n();
+    x.reserve(n);
+    std::vector<double> p; p.reserve(n);
+    std::vector<double> q; q.reserve(n);
 
-void progonka(matrix* M, double* d, double* x){
-    int n = M->n;
-    double* p = new double[n];
-    double* q = new double[n];
-
-    p[0] = -M->c[0]/M->b[0];
-    q[0] = d[0]/M->b[0];
+    p[0] = -M->get_a(0)/M->get_a(0);
+    q[0] = d[0]/M->get_a(0);
 
     for(int i=1;i<n;i++){
-        double z = (M->a[i-1]*p[i-1]+M->b[i]);
-        p[i] = -M->c[i]/z;
-        q[i] = (d[i]-M->a[i-1]*q[i-1])/z;
+        double z = (M->get_a(i-1)*p[i-1]+M->get_a(i));
+        p[i] = -M->get_a(i)/z;
+        q[i] = (d[i]-M->get_a(i-1)*q[i-1])/z;
     }
 
     /*for(int i=0;i<n-1;i++){
-        std::cout<<p[i]<<" "<<q[i]<<std::endl;
+        std::cout<<p[i}<<" "<<q[i}<<std::endl;
     }*/
 
     x[n-1]=q[n-1];
 
     for(int i=n-2;i>=0;i--){
-        //x[i] = (d[i]-a[i]*q[i])/(a[i]*p[i]+b[i]);
+        //x[i} = (d[i}-a[i}*q[i})/(a[i}*p[i}+b[i});
         x[i] = p[i]*x[i+1]+q[i];
     }
 }
