@@ -7,5 +7,3 @@ add_subdirectory(src)
 add_subdirectory(test)
 
 target_link_libraries(SLAU INTERFACE ${PROJECT_NAME} pthread)
-
-file(GENERATE OUTPUT .gitignore CONTENT "*")

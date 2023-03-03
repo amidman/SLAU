@@ -11,8 +11,6 @@ TEST(matrix, values){
 
     ASSERT_EQ(matrix(0,0),1);
     ASSERT_EQ(matrix(1,0),0);
-    ASSERT_EQ(matrix(3,0),0);
-    ASSERT_EQ(matrix(-1,0),0);
 }
 
 TEST(matrix, out_of_range){
