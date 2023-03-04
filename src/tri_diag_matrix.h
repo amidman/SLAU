@@ -17,9 +17,9 @@ struct tri_diag_matrix{
         };
 
         int get_n(){return n;};
-        double get_a(int i){if(i<n){return a[i];}};
-        double get_b(int i){if(i<=n){return b[i];}};
-        double get_c(int i){if(i<n){return c[i];}};
+        double get_a(int i){if(i<n){return a[i];}return 0;};
+        double get_b(int i){if(i<=n){return b[i];}return 0;};
+        double get_c(int i){if(i<n){return c[i];}return 0;};
         void set_a(int i, double val){if(i<n){a[i] = val;}};
         void set_b(int i, double val){if(i<=n){b[i] = val;}};
         void set_c(int i, double val){if(i<n){c[i] = val;}};

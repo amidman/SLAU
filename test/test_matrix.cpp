@@ -1,5 +1,5 @@
 #include"../src/tri_diag_matrix.h"
-#include"../src/CSR.cpp"
+#include"../src/CSR.h"
 #include<iostream>
 #include <gtest/gtest.h>
 
