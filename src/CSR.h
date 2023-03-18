@@ -1,3 +1,5 @@
+#pragma once
+
 #include<vector>
 
 template<typename T>
@@ -13,7 +15,7 @@ class CSR {
             values = values_i;
             cols = cols_i;
             rows = rows_i;
-            row_num = rows.size() - 1;
+            row_num = rows.size()-1;
         }
 
         T operator()(int i, int j) const {
