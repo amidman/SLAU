@@ -10,11 +10,9 @@ bool converge(std::vector<double> xk, std::vector<double> xkp, double eps){
 }
 
 std::vector<double> Zedel(CSR<double> matrix, std::vector<double> b, double tolerance){
-    std::vector<double> x;
-    std::vector<double> p;
     int n = b.size();
-    x.reserve(n);
-    p.reserve(n);
+	std::vector<double> x(n);
+    std::vector<double> p(n);
 
     int int_count = 0;
 

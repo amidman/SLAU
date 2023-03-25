@@ -8,10 +8,15 @@ TEST(MPI,test){
     std::vector<int> cols{0, 1, 1, 1, 2};
     std::vector<int> rows{0, 2, 3, 5};
 
-    std::vector<double> b{1, 2, 3};
+    std::vector<double> res{1, 2, 3};
 
     CSR<double> matrix = CSR<double>(values,cols,rows);
-    std::cout<<"0"<<std::endl;
-    std::vector<double> res;
-    res = MPI(matrix,b,0.01,0.01);
+    std::vector<double> b = matrix*res;
+    std::vector<double> x;
+    double tolerance = 0.000001;
+    x = MPI(matrix,b,0.01,tolerance);
+
+    EXPECT_NEAR(x[0],res[0],tolerance);
+    EXPECT_NEAR(x[1],res[1],tolerance);
+    EXPECT_NEAR(x[2],res[2],tolerance);
 }
