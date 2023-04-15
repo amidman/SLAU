@@ -1,3 +1,5 @@
+#pragma once
+
 #include<vector>
 
 struct tri_diag_matrix{

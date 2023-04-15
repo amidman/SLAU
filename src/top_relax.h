@@ -11,6 +11,14 @@ bool converge(std::vector<double> xk, std::vector<double> xkp, double eps){
 	return (norm < eps*eps);
 }
 
+std::vector<double> operator*(std::vector<double> a, double b){
+    std::vector<double> res(a.size());
+    for(int i=0;i<a.size();++i){
+        res[i] = a[i]*b;
+    }
+    return res;
+}
+
 std::vector<double> operator+(std::vector<double> a, std::vector<double> b){
     std::vector<double> res(a.size());
     for(int i=0;i<a.size();++i){
@@ -27,7 +35,7 @@ std::vector<double> operator-(std::vector<double> a, std::vector<double> b){
     return res;
 }
 
-std::vector<double> Zedel(CSR<double> matrix, std::vector<double> b, double tolerance){
+std::vector<double> Top_relax(CSR<double> matrix, std::vector<double> b, double omega, double tolerance){
     int n = b.size();
 	std::vector<double> x(n);
     std::vector<double> p(n);
@@ -48,9 +56,11 @@ std::vector<double> Zedel(CSR<double> matrix, std::vector<double> b, double tole
             for (int i = 0; i < n; ++i) {
                 for (int j = matrix.rows[i]; j < matrix.rows[i+1]; ++j) {
 					int k = matrix.cols[j];
-					if(k!=i){
-                    	res[i] += matrix.values[j] * p[k];
-					}else{
+					if(i<k){
+                    	res[i] += matrix.values[j] * x[k];
+					}else if(i>k){
+                        res[i] += matrix.values[j] * p[k];
+                    }else{
 						if(matrix.values[j]!=0){
 							diag[k] = 1/matrix.values[j];
 						}
@@ -59,7 +69,7 @@ std::vector<double> Zedel(CSR<double> matrix, std::vector<double> b, double tole
                 }
 				res[i] = res[i]*diag[i];
             }
-			x = Db-res;
+			x = p*(1-omega)+(Db-res)*omega;
 		int_count++;
 	} while (!converge(x, p, tolerance));
 

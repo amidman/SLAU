@@ -1,8 +1,8 @@
-#include"../src/Gauss_zedel.h"
+#include"../src/top_relax.h"
 #include<iostream>
 #include <gtest/gtest.h>
 
-TEST(Zedel, values){
+TEST(matrix, values){
     std::vector<double> values{1, 2, 4, 2, 6};
     std::vector<int> cols{0, 1, 1, 1, 2};
     std::vector<int> rows{0, 2, 3, 5};
@@ -14,7 +14,8 @@ TEST(Zedel, values){
     std::vector<double> x;
     
     double tolerance = 0.001;
-    x = Zedel(matrix,b,tolerance);
+    double omega = 1.5;
+    x = Top_relax(matrix,b,omega,tolerance);
 
     EXPECT_NEAR(x[0],res[0],tolerance);
     EXPECT_NEAR(x[1],res[1],tolerance);

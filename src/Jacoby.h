@@ -27,7 +27,7 @@ std::vector<double> operator-(std::vector<double> a, std::vector<double> b){
     return res;
 }
 
-std::vector<double> Zedel(CSR<double> matrix, std::vector<double> b, double tolerance){
+std::vector<double> Jacoby(CSR<double> matrix, std::vector<double> b, double tolerance){
     int n = b.size();
 	std::vector<double> x(n);
     std::vector<double> p(n);
@@ -47,12 +47,11 @@ std::vector<double> Zedel(CSR<double> matrix, std::vector<double> b, double tole
         	}
             for (int i = 0; i < n; ++i) {
                 for (int j = matrix.rows[i]; j < matrix.rows[i+1]; ++j) {
-					int k = matrix.cols[j];
-					if(k!=i){
-                    	res[i] += matrix.values[j] * p[k];
+					if(matrix.cols[j]!=i){
+                    	res[i] += matrix.values[j] * x[matrix.cols[j]];
 					}else{
 						if(matrix.values[j]!=0){
-							diag[k] = 1/matrix.values[j];
+							diag[matrix.cols[j]] = 1/matrix.values[j];
 						}
 						Db[i] = diag[i]*b[i];
 					}

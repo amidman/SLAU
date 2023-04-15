@@ -4,13 +4,13 @@
 
 template<typename T>
 class CSR {
-    private:
+    public:
         int row_num;
         int col_num;
         std::vector<T> values;
         std::vector<int> cols;
         std::vector<int> rows;
-    public:
+
         CSR(std::vector<T> &values_i,std::vector<int> &cols_i,std::vector<int> &rows_i){
             values = values_i;
             cols = cols_i;
