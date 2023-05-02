@@ -3,13 +3,14 @@
 #include<iostream>
 
 double f(std::vector<double> x, CSR<double> matrix, std::vector<double> b,double c){
+    int n = x.size();
     std::vector<double> Ax = matrix*x;
     double a = 0;
-    for(int i=0;i<4;++i){
+    for(int i=0;i<n;++i){
         a+=Ax[i]*x[i];
     }
     double btx = 0;
-    for(int i=0;i<4;++i){
+    for(int i=0;i<n;++i){
         btx+=b[i]*x[i];
     }
 
@@ -56,12 +57,12 @@ int main(){
     }
     std::cout<<std::endl;
 
-    std::cout<<f(x_mpi,matrix,b,c)<<" "<<f(x_mpi,matrix,b,c)<<" "<<f(x_mpi,matrix,b,c)<<" "<<std::endl;
+    std::cout<<f(x_mpi,matrix,b,c)<<" "<<f(x_opt,matrix,b,c)<<" "<<f(x_gd,matrix,b,c)<<" "<<std::endl;
 
     return 0;
 }
 
-//f min = 12.7336
+//f min = -0.67
 
 /*
 MPI:

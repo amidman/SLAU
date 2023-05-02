@@ -40,9 +40,8 @@ std::vector<double> Zedel(CSR<double> matrix, std::vector<double> b, double tole
 			p[i] = x[i];
         }
 		    std::vector<double> res(n);
-		    std::vector<double> diag(n);
+			double diag = 0;
 			for (int i = 0; i < n; i++){
-				diag[i] = 0;
 				Db[i] = 0;
         	}
             for (int i = 0; i < n; ++i) {
@@ -52,12 +51,67 @@ std::vector<double> Zedel(CSR<double> matrix, std::vector<double> b, double tole
                     	res[i] += matrix.values[j] * p[k];
 					}else{
 						if(matrix.values[j]!=0){
-							diag[k] = 1/matrix.values[j];
+							diag = 1/matrix.values[j];
 						}
-						Db[i] = diag[i]*b[i];
+						Db[i] = diag*b[i];
 					}
                 }
-				res[i] = res[i]*diag[i];
+				res[i] = res[i]*diag;
+            }
+			x = Db-res;
+		int_count++;
+	} while (!converge(x, p, tolerance));
+
+    return x;
+}
+
+
+std::vector<double> Zedel_sym(CSR<double> matrix, std::vector<double> b, double tolerance){
+    int n = b.size();
+	std::vector<double> x(n);
+    std::vector<double> p(n);
+
+    int int_count = 0;
+
+	std::vector<double> Db(n);
+    do{
+		for (int i = 0; i < n; i++){
+			p[i] = x[i];
+        }
+		    std::vector<double> res(n);
+			double diag = 0;
+			for (int i = 0; i < n; i++){
+				Db[i] = 0;
+        	}
+            for (int i = 0; i < n; ++i) {
+                for (int j = matrix.rows[i]; j < matrix.rows[i+1]; ++j) {
+					int k = matrix.cols[j];
+					if(k!=i){
+                    	res[i] += matrix.values[j] * p[k];
+					}else{
+						if(matrix.values[j]!=0){
+							diag = 1/matrix.values[j];
+						}
+						Db[i] = diag*b[i];
+					}
+                }
+				res[i] = res[i]*diag;
+            }
+			x = Db-res;
+
+			for (int i = n-1; i >= 0; --i) {
+                for (int j = matrix.rows[i]; j < matrix.rows[i+1]; ++j) {
+					int k = matrix.cols[j];
+					if(k!=i){
+                    	res[i] += matrix.values[j] * x[k];
+					}else{
+						if(matrix.values[j]!=0){
+							diag = 1/matrix.values[j];
+						}
+						Db[i] = diag*b[i];
+					}
+                }
+				res[i] = res[i]*diag;
             }
 			x = Db-res;
 		int_count++;

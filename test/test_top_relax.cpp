@@ -15,7 +15,7 @@ TEST(matrix, values){
     
     double tolerance = 0.001;
     double omega = 1.5;
-    x = Top_relax(matrix,b,omega,tolerance);
+    x = SOR(matrix,b,omega,tolerance);
 
     EXPECT_NEAR(x[0],res[0],tolerance);
     EXPECT_NEAR(x[1],res[1],tolerance);

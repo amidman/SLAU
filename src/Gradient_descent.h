@@ -7,11 +7,9 @@
 
 std::vector<double> Gradient_descent_fast(CSR<double> matrix, std::vector<double> b, double tolerance){
     int n = b.size();
-    std::vector<double> res(n);
+    std::vector<double> res(n,0);
     std::vector<double> dif(n);
-    for(int i =0;i<n;++i){
-        res[i] = 0;
-    }
+
     do{
         dif = (matrix*res-b);
 

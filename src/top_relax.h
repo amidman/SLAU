@@ -35,7 +35,7 @@ std::vector<double> operator-(std::vector<double> a, std::vector<double> b){
     return res;
 }
 
-std::vector<double> Top_relax(CSR<double> matrix, std::vector<double> b, double omega, double tolerance){
+std::vector<double> SOR(const CSR<double>& matrix, const std::vector<double>& b, const double& omega, const double& tolerance){
     int n = b.size();
 	std::vector<double> x(n);
     std::vector<double> p(n);
@@ -54,7 +54,7 @@ std::vector<double> Top_relax(CSR<double> matrix, std::vector<double> b, double 
 				Db[i] = 0;
         	}
             for (int i = 0; i < n; ++i) {
-                for (int j = matrix.rows[i]; j < matrix.rows[i+1]; ++j) {
+                for (int j = matrix.rows[i]; j < matrix.rows[i+1]; ++j){
 					int k = matrix.cols[j];
 					if(i<k){
                     	res[i] += matrix.values[j] * x[k];

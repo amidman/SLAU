@@ -1,6 +1,6 @@
+#include<iostream>
 #include"../src/tri_diag_matrix.h"
 #include"../src/CSR.h"
-#include<iostream>
 #include <gtest/gtest.h>
 
 TEST(matrix, values){
@@ -45,4 +45,53 @@ TEST(matrix, mult_by_vect){
     ASSERT_EQ(x[0],5);
     ASSERT_EQ(x[1],8);
     ASSERT_EQ(x[2],22);
+}
+
+TEST(matrix, DOKtoSCR){
+    double b = 18;
+    double a = 6;
+
+    std::vector<DOK<double>> dok;
+    for(int i = 0; i < 289; i ++){
+        dok.push_back({i, i, 2 * b});
+    }
+
+    for(int i = 0; i < 288; i ++){
+        dok.push_back({i + 1, i, a});
+        dok.push_back({i, i + 1, a});
+    }
+
+    for(int i = 0; i < 272; i ++){
+        dok.push_back({i + 17, i, a});
+        dok.push_back({i, i + 17, a});
+    }
+
+    CSR<double> matrix = CSR<double>{dok, 289, 289};
+
+
+    for(int i=0;i<10;++i){
+        for(int j=0;j<289;j++){
+            std::cout<<matrix(i,j)<<" ";
+        }
+        std::cout<<std::endl;
+    }
+}
+
+TEST(matrix, five_diag){
+    CSR<double> matrix = CSR<double>(7,3,4,5);
+    
+    /*
+    for(int i=0;i<7;++i){
+        for(int j=0;j<7;j++){
+            std::cout<<matrix(i,j)<<" ";
+        }
+        std::cout<<std::endl;
+    }
+    */
+   /*
+    for(int i=0;i<30;i++){
+            std::cout<<matrix.cols[i]<<" ";
+    }
+    */
+    
 }
