@@ -25,6 +25,48 @@ class CSR {
         std::vector<int> cols;
         std::vector<int> rows;
 
+        CSR(int n, double a, double b){
+            std::vector<DOK<double>> dok;
+            for(int i = 0; i < n*n; i ++){
+                dok.push_back({i, i, 2 * b});
+            }
+
+            for(int i = 0; i < n*n-1; i ++){
+                dok.push_back({i + 1, i, a});
+                dok.push_back({i, i + 1, a});
+            }
+
+            for(int i = 0; i < n*n-n; i ++){
+                dok.push_back({i + 17, i, a});
+                dok.push_back({i, i + 17, a});
+            }
+
+            this->col_num = n*n;
+            this->row_num = n*n;
+
+            std::sort(dok.begin(), dok.end());
+            rows.reserve(this->row_num + 1);
+            values.reserve(dok.size());
+            cols.reserve(dok.size());
+            rows.push_back(0);
+
+            int count_el = 0;
+            int i = 0; // row index
+            for (auto it: dok) {
+                while (i < it.i) {
+                    rows.push_back(count_el);
+                    i += 1;
+                }
+
+                if (it.i == i) {
+                    values.push_back(it.value_);
+                    cols.push_back(it.j);
+                    count_el++;
+                }
+            }
+            rows.push_back(count_el);
+        }
+
         CSR(std::vector<T> &values_i,std::vector<int> &cols_i,std::vector<int> &rows_i){
             values = values_i;
             cols = cols_i;

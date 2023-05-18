@@ -32,7 +32,7 @@ int main(){
     double c = 2;
     double tolerance = 0.0000000000001;
     double tau = 0.9*2/15;
-    double tau_opt = 2.0/(10.0+15.0);
+    double tau_opt = 2.0/(10+15);
     std::cout<<"MPI:";
     x_mpi = MPI(matrix,b,tau,tolerance);
     std::cout<<"MPI opt:";

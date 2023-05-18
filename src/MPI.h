@@ -16,7 +16,9 @@ std::vector<double> MPI(CSR<double> matrix, std::vector<double> b, double tau, d
         dif = (matrix*res-b);
         res = res-dif*tau;
 
-    std::cout<<res[0]<<" "<<res[3]<<std::endl;
+    //std::cout<<res[0]<<" "<<res[3]<<std::endl;
+	std::cout<<norm(matrix*res-b)<<std::endl;
+    
     }while(norm(dif) > tolerance);
 
     return res;

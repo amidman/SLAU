@@ -1,6 +1,7 @@
 #pragma once
 
 #include"CSR.h"
+#include"operators.h"
 
 bool converge(std::vector<double> xk, std::vector<double> xkp, double eps){
 	double norm = 0;
@@ -9,22 +10,6 @@ bool converge(std::vector<double> xk, std::vector<double> xkp, double eps){
 		norm += (xk[i] - xkp[i]) * (xk[i] - xkp[i]);
     }
 	return (norm < eps*eps);
-}
-
-std::vector<double> operator+(std::vector<double> a, std::vector<double> b){
-    std::vector<double> res(a.size());
-    for(int i=0;i<a.size();++i){
-        res[i] = a[i]+b[i];
-    }
-    return res;
-}
-
-std::vector<double> operator-(std::vector<double> a, std::vector<double> b){
-    std::vector<double> res(a.size());
-    for(int i=0;i<a.size();++i){
-        res[i] = a[i]-b[i];
-    }
-    return res;
 }
 
 std::vector<double> Zedel(CSR<double> matrix, std::vector<double> b, double tolerance){
@@ -60,6 +45,7 @@ std::vector<double> Zedel(CSR<double> matrix, std::vector<double> b, double tole
             }
 			x = Db-res;
 		int_count++;
+    	
 	} while (!converge(x, p, tolerance));
 
     return x;
@@ -115,7 +101,9 @@ std::vector<double> Zedel_sym(CSR<double> matrix, std::vector<double> b, double 
             }
 			x = Db-res;
 		int_count++;
+		std::cout<<norm(matrix*x-b)<<std::endl;
 	} while (!converge(x, p, tolerance));
+	//} while (norm(matrix*x-b) > tolerance);
 
     return x;
 }
