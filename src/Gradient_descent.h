@@ -32,3 +32,24 @@ std::vector<double> Gradient_descent_fast(CSR<double> matrix, std::vector<double
 
     return res;
 }
+
+std::vector<double> Heavy_ball(CSR<double> matrix, std::vector<double> b, double tau, double tolerance, double alpha){
+    int n = b.size();
+    std::vector<double> res(n,0);
+    std::vector<double> res_p(n,0);
+    std::vector<double> res_pp(n,0);
+    std::vector<double> dif(n);
+
+    do{
+        dif = (matrix*res-b);
+        res = res_p-(res_p-res_pp)*alpha-dif*tau;
+
+        res_p = res;
+        res_pp = res_p;
+    //std::cout<<res[0]<<" "<<res[3]<<std::endl;
+	//std::cout<<norm(matrix*res-b)<<std::endl;
+    
+    }while(norm(dif) > tolerance);
+
+    return res;
+}

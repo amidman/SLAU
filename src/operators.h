@@ -11,6 +11,23 @@ std::vector<double> operator*(std::vector<double> a, double b){
     return res;
 }
 
+std::vector<double> operator*(double b, std::vector<double> a){
+    std::vector<double> res(a.size());
+    for(int i=0;i<a.size();++i){
+        res[i] = a[i]*b;
+    }
+    return res;
+}
+
+std::vector<double> operator/(std::vector<double> a, double b){
+    std::vector<double> res(a.size());
+
+    for(int i=0;i<a.size();++i){
+        res[i] = a[i]/b;
+    }
+    return res;
+}
+
 std::vector<double> operator-(std::vector<double> a, std::vector<double> b){
     std::vector<double> res(a.size());
     for(int i=0;i<a.size();++i){
