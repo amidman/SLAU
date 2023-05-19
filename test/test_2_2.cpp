@@ -25,11 +25,11 @@ int main(){
 
     CSR<double> matrix = CSR<double>(values,cols,rows);
 
-    std::vector<double> b{4,4,4,4};
+    std::vector<double> b(4,6);
     std::vector<double> x_mpi;
     std::vector<double> x_opt;
     std::vector<double> x_gd;
-    double c = 2;
+    double c = 1;
     double tolerance = 0.0000000000001;
     double tau = 0.9*2/15;
     double tau_opt = 2.0/(10+15);
